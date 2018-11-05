@@ -1,0 +1,10 @@
+#!/bin/bash
+cd $(dirname $0)
+source ./global_vars.sh
+a=`sh batch_machine.sh | sort -k 7nr | head -1| awk '{print $5}'`
+b=`sh batch_machine.sh | sort -k 7nr | head -1| awk '{print $7}'`
+curl -s http://api.${GAME_URL_DOMAIN}/server/checkdeploy | awk -v "ip=$a" '$5==0{print ip,$1,$2}' >deploy.txt
+[ -s deploy.txt ] && cat deploy.txt || exit 0
+echo -e [游戏机: $a 负载为: $b ]
+read
+sh batch_deploy.sh -h deploy.txt

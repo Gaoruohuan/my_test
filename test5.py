@@ -1,4 +1,12 @@
 # 1. 创建一个文件，并写入当前日期
-test_file = open('test.txt','r',encoding='UTF-8')
-print(test_file.read(10))
-test_file.close()
+import datetime
+now = datetime.datetime.now()
+with open('test.txt', 'w') as f:
+    # 注意write( )方法写入的内容是字符串类型
+    f.write(str(now))
+
+
+# 2. 再次打开这个文件，读取文件的前4个字符后退出
+with open('test.txt', 'r') as f:
+    text_4 = f.read(4)
+    print(text_4)
